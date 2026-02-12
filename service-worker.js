@@ -3,8 +3,8 @@ const ASSETS_TO_CACHE = [
   './',
   './index.html',
   './manifest.json',
-  './arietty.jpg',       // manifest.json で指定されているアイコン
-  './arietty.jpg',    // ★ HTMLの poster と apple-touch-icon で使用 (追加)
+  './icon.jpg',       // manifest.json で指定されているアイコン
+  './icon.jpg',    // ★ HTMLの poster と apple-touch-icon で使用 (追加)
   './karen.mp4'       // ★ HTMLの videoタグ で使用 (test.mp4 から変更)
 ];
 
