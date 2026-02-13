@@ -146,6 +146,72 @@
             opacity: 1;
         }
 
+        /* --- BLIND RADIO BROADCAST STYLE --- */
+        .radio-box {
+            background: linear-gradient(90deg, rgba(20,20,20,0.95) 0%, rgba(10,10,10,0.95) 100%);
+            border-left: 4px solid #e10600; /* F1 Red Accent */
+            border-radius: 4px;
+            padding: 1.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 1.5rem;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.6);
+            max-width: 500px;
+            width: 100%;
+            margin: 0 auto;
+            position: relative;
+            overflow: hidden;
+            animation: slideInRight 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
+        }
+
+        /* 背景にうっすら走るスキャンライン */
+        .radio-box::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(255,255,255,0.03) 3px);
+            pointer-events: none;
+        }
+
+        .radio-content {
+            text-align: left;
+            z-index: 2;
+        }
+
+        .waveform {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            height: 30px;
+            z-index: 2;
+        }
+
+        .wave-bar {
+            width: 6px;
+            background: #00f0ff; /* Cyan for audio */
+            border-radius: 2px;
+            animation: audioWave 0.8s infinite ease-in-out;
+            box-shadow: 0 0 8px rgba(0, 240, 255, 0.6);
+        }
+
+        /* 各バーのアニメーションをずらす */
+        .wave-bar:nth-child(1) { animation-delay: 0.1s; height: 40%; }
+        .wave-bar:nth-child(2) { animation-delay: 0.3s; height: 70%; }
+        .wave-bar:nth-child(3) { animation-delay: 0.0s; height: 100%; }
+        .wave-bar:nth-child(4) { animation-delay: 0.4s; height: 60%; }
+        .wave-bar:nth-child(5) { animation-delay: 0.2s; height: 30%; }
+
+        @keyframes audioWave {
+            0%, 100% { height: 20%; opacity: 0.5; }
+            50% { height: 100%; opacity: 1; }
+        }
+
+        @keyframes slideInRight {
+            from { transform: translateX(50px); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+
         @media only screen and (max-width: 768px) {
             .carbon-bg {
                 background-attachment: scroll; 
@@ -445,7 +511,7 @@
     <script>
    
       const rawData = `
-follow: ～の後に続く、～に従う
+      follow: ～の後に続く、～に従う
 consider: ～を考慮する
 increase: 増える、～を増やす
 expect: ～を予期する
@@ -2869,16 +2935,39 @@ lest: ～しないように
              
              const targetDisplay = document.getElementById('target-word');
 
-             // BLIND RADIO
+             // BLIND RADIO: BROADCAST STYLE
              if (this.isRadioMode) {
-                 targetDisplay.innerText = "🔊 INCOMING...";
-                 targetDisplay.className = "f1-font text-4xl md:text-5xl font-bold text-purple-500 tracking-widest animate-pulse py-4";
-                 setTimeout(() => this.speak(q.w), 200);
+                 // クラスをリセットしてコンテナ化
+                 targetDisplay.className = "w-full flex justify-center py-4"; 
+                 targetDisplay.innerHTML = `
+                    <div class="radio-box">
+                        <div class="radio-content">
+                            <div class="flex items-center gap-2 mb-1">
+                                <span class="bg-white text-black text-[10px] font-bold px-1.5 rounded-sm">LIVE</span>
+                                <span class="text-gray-400 text-[10px] font-bold uppercase tracking-widest font-mono">TEAM RADIO</span>
+                            </div>
+                            <div class="flex flex-col">
+                                <span class="text-white f1-font text-2xl font-bold italic tracking-wider">GP <span class="text-gray-600 text-sm not-italic mx-1">➜</span> YOU</span>
+                            </div>
+                        </div>
+                        
+                        <div class="waveform">
+                            <div class="wave-bar"></div>
+                            <div class="wave-bar"></div>
+                            <div class="wave-bar"></div>
+                            <div class="wave-bar"></div>
+                            <div class="wave-bar"></div>
+                        </div>
+                    </div>
+                 `;
+                 setTimeout(() => this.speak(q.w), 300);
              } else {
+                 // 通常モード（テキスト表示）
+                 targetDisplay.innerHTML = "";
                  targetDisplay.innerText = q.qText;
                  targetDisplay.className = (this.isReverseMode && q.qText.length > 8) 
-                     ? "f1-font text-4xl font-bold text-white tracking-wide break-words px-2"
-                     : "f1-font text-6xl font-bold text-white tracking-wide drop-shadow-lg break-words px-2";
+                     ? "f1-font text-4xl font-bold text-white tracking-wide break-words px-2 text-center"
+                     : "f1-font text-6xl font-bold text-white tracking-wide drop-shadow-lg break-words px-2 text-center";
                  
                  if (this.isAutoAudio && !this.isReverseMode && !this.isSpellingMode) setTimeout(() => this.speak(q.w), 200);
              }
@@ -3061,9 +3150,10 @@ lest: ～しないように
              // ラジオモードなら、回答後に正解を表示
              if (this.isRadioMode) {
                  const targetDisplay = document.getElementById('target-word');
+                 // グラフィックを消して、正解テキストを表示
+                 targetDisplay.innerHTML = "";
                  targetDisplay.innerText = q.w; 
-                 targetDisplay.className = "f1-font text-6xl font-bold text-white tracking-wide drop-shadow-xl break-words px-2";
-                 targetDisplay.classList.remove('animate-pulse', 'text-purple-500');
+                 targetDisplay.className = "f1-font text-6xl font-bold text-white tracking-wide drop-shadow-xl break-words px-2 text-center";
              }
 
              const feedback = document.getElementById('feedback');
