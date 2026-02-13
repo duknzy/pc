@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <meta name="apple-mobile-web-app-title" content="Learn">
+    <meta name="apple-mobile-web-app-title" content="RB Hybrid GP">
     <link rel="apple-touch-icon" href="icon.png">
     <link rel="manifest" href="manifest.json">
     <meta name="theme-color" content="#0b0e14">
@@ -25,7 +25,6 @@
             --neon-green: #39ff14;
         }
 
-        /* --- 背景設定：動画プレイヤー用 --- */
         html, body {
             height: 100%;
             width: 100%;
@@ -56,7 +55,7 @@
             height: auto;
             z-index: -1;
             object-fit: cover;
-            filter: brightness(0.3);
+            filter: brightness(0.6);
         }
 
         .carbon-bg {
@@ -78,7 +77,7 @@
         #app::-webkit-scrollbar { display: none; }
 
         .race-card {
-            background: rgba(11, 14, 20, 0.1); /* 透明度調整 */
+            background: rgba(11, 14, 20, 0.1);
             backdrop-filter: blur(5px);
             -webkit-backdrop-filter: blur(5px);
             border: 1px solid rgba(255, 255, 255, 0.15);
@@ -95,35 +94,6 @@
         .option-btn:active { transform: scale(0.96); background: rgba(255, 255, 255, 0.1); }
         .option-btn:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
 
-        .chip-btn {
-            transition: all 0.15s;
-            position: relative;
-            touch-action: manipulation;
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.3);
-            text-transform: none; 
-        }
-        .chip-btn:active { transform: scale(0.95); }
-        
-        .chip-pool { 
-            background: linear-gradient(145deg, #252525, #151515); 
-            border: 1px solid #333; 
-            color: #e2e8f0; 
-            font-weight: 500;
-        }
-        .chip-slot { 
-            background: var(--f1-red); 
-            color: white; 
-            border: 1px solid #ff4d6d; 
-            font-weight: bold; 
-            box-shadow: 0 0 10px rgba(225, 6, 0, 0.4); 
-        }
-        .chip-correct { 
-            background: var(--neon-green) !important; 
-            color: black !important; 
-            border-color: var(--neon-green) !important; 
-            box-shadow: 0 0 15px var(--neon-green); 
-        }
-        
         .letter-chip {
             min-width: 40px;
             height: 45px;
@@ -135,26 +105,6 @@
             justify-content: center;
             text-transform: uppercase;
         }
-
-        .answer-slot {
-            min-height: 60px;
-            background: rgba(0, 0, 0, 0.3);
-            border-bottom: 3px dashed var(--f1-red);
-            transition: all 0.3s ease;
-        }
-        .answer-slot.correct-lane {
-            border-bottom-style: solid;
-            border-color: var(--neon-green); 
-            box-shadow: 0 10px 30px -10px rgba(57, 255, 20, 0.3);
-        }
-        .answer-slot.wrong-lane {
-            border-color: var(--f1-red);
-            box-shadow: 0 0 15px rgba(225, 6, 0, 0.4);
-            background: rgba(225, 6, 0, 0.1);
-        }
-
-        .mode-btn { transition: all 0.2s; opacity: 0.5; border-bottom: 2px solid transparent; }
-        .mode-btn.active { opacity: 1; border-bottom-color: var(--f1-red); color: white; text-shadow: 0 0 10px rgba(255,255,255,0.3); }
 
         .accent-f1 { accent-color: var(--f1-red); }
         .glitch-text { text-shadow: 2px 0 rgba(255,0,0,0.5), -2px 0 rgba(0,255,255,0.5); }
@@ -180,13 +130,10 @@
         }
         .animate-shake { animation: shake 0.4s ease-in-out; }
         
-        .locked { opacity: 0.5; pointer-events: none; }
-        
         .wb-scroll::-webkit-scrollbar { width: 4px; }
         .wb-scroll::-webkit-scrollbar-track { background: #1a1a1a; }
         .wb-scroll::-webkit-scrollbar-thumb { background: #e10600; border-radius: 4px; }
         
-        /* Strategy Panel Transition (Mobile) */
         .strategy-panel-mobile {
             transition: max-height 0.3s ease-in-out, opacity 0.3s ease-in-out;
             max-height: 0;
@@ -199,17 +146,12 @@
             opacity: 1;
         }
 
-        /* Desktop Layout Fixes */
         @media only screen and (max-width: 768px) {
             .carbon-bg {
-                /* スマホでは固定を解除しないとバグることがあるから scroll に変更している */
                 background-attachment: scroll; 
-                min-height: 100vh; /* 画面いっぱいに伸ばす */
+                min-height: 100vh;
             }
         }
-        /* ... 既存のCSSの最後あたりに追加 ... */
-
-        /* ★PC・横画面(iPadなど)でパネルを常時展開する設定 */
         @media (min-width: 768px) {
             .strategy-panel-mobile {
                 max-height: none !important;
@@ -217,14 +159,12 @@
                 overflow: visible !important;
             }
         }
-
-        
     </style>
 </head>
 <body class="carbon-bg text-sm md:text-base">
 
-    <video autoplay muted loop playsinline poster="./F1.jpg" id="bg-video">
-        <source src="./.mp4" type="video/mp4">
+    <video autoplay muted loop playsinline poster="./verstappen.avif" id="bg-video">
+        <source src="./sun.mp4" type="video/mp4">
     </video>
 
     <div id="app" class="w-full max-w-6xl mx-auto flex flex-col">
@@ -253,18 +193,6 @@
                         <div class="text-right">
                             <span class="text-[10px] text-gray-500 uppercase tracking-widest block">Global Daily Laps</span>
                             <span id="daily-laps-display" class="f1-font text-3xl text-white font-bold leading-none">0</span>
-                        </div>
-                    </div>
-
-                    <div class="bg-black/40 p-1.5 rounded-xl border border-gray-800 flex">
-                        <button onclick="quiz.switchMode('vocab')" id="mode-vocab" class="mode-btn active flex-1 py-3 text-sm font-bold uppercase tracking-widest f1-font">Vocab</button>
-                        <button onclick="quiz.switchMode('idiom')" id="mode-idiom" class="mode-btn flex-1 py-3 text-sm font-bold uppercase tracking-widest f1-font">Idiom</button>
-                    </div>
-
-                    <div id="idiom-settings" class="hidden">
-                         <div class="bg-gray-900/50 p-6 rounded-xl border border-gray-800 text-center">
-                            <p class="text-[10px] text-gray-400 uppercase tracking-widest">Total Idioms</p>
-                            <div class="f1-font text-4xl text-white font-bold mt-2" id="idiom-count-display">0</div>
                         </div>
                     </div>
 
@@ -383,8 +311,10 @@
                             </label>
 
                              <label class="flex items-center justify-between cursor-pointer group bg-black/30 p-3 rounded-lg border border-gray-800 hover:border-gray-600 transition-colors">
-                                <span class="text-xs font-bold text-gray-300 group-hover:text-yellow-400 transition-colors flex items-center gap-2"><span class="text-yellow-400">⚡</span> INSTANT DRS</span>
-                                <input type="checkbox" id="instant-mode" class="accent-f1 w-5 h-5 cursor-pointer">
+                                <span class="text-xs font-bold text-gray-300 group-hover:text-purple-400 transition-colors flex items-center gap-2">
+                                    <span class="text-purple-500">🎧</span> BLIND RADIO
+                                </span>
+                                <input type="checkbox" id="radio-mode" class="accent-f1 w-5 h-5 cursor-pointer" onchange="quiz.updateSummary()">
                             </label>
                             
                             <div id="spelling-option-container" class="hidden">
@@ -459,7 +389,7 @@
                 <div id="progress-fill" class="bg-gradient-to-r from-red-600 to-yellow-500 h-full w-0 transition-all duration-300"></div>
             </div>
             
-            <div id="vocab-interface" class="flex-grow flex flex-col justify-between hidden">
+            <div id="vocab-interface" class="flex-grow flex flex-col justify-between">
                 <div class="flex-grow flex flex-col items-center justify-center mb-8 relative">
                     <div class="absolute -top-6 text-gray-500 text-[10px] uppercase tracking-widest" id="question-label">Target</div>
                     <h2 id="target-word" class="f1-font text-5xl md:text-6xl font-bold text-white tracking-wide drop-shadow-xl break-words px-2 text-center transition-all"></h2>
@@ -477,23 +407,6 @@
                         </div>
                     <p class="text-[10px] text-gray-500 mt-6 uppercase">Tip: Tap slot to Undo</p>
                 </div>
-            </div>
-
-            <div id="idiom-interface" class="flex-grow flex flex-col justify-between hidden">
-                 <div class="flex-grow flex flex-col items-center justify-center">
-                    <div id="idiom-japanese" class="f1-font text-2xl md:text-3xl font-bold text-gray-200 tracking-wide text-center mb-8 break-words w-full px-4">Loading...</div>
-                    <div class="w-full mb-6 px-1">
-                        <div class="flex flex-wrap items-center justify-center gap-3 mb-2">
-                            <span id="idiom-prefix" class="text-gray-400 f1-font text-xl"></span>
-                            <div id="answer-slot" class="answer-slot flex flex-wrap gap-2 items-center justify-center p-4 rounded-xl min-w-[150px] border-2 border-dashed border-gray-700 bg-black/20"></div>
-                            <span id="idiom-suffix" class="text-gray-400 f1-font text-xl"></span>
-                        </div>
-                    </div>
-                </div>
-                <div id="word-pool" class="flex flex-wrap justify-center gap-3 w-full mt-auto p-6 bg-black/40 rounded-xl border border-gray-800"></div>
-                <button id="idiom-next-btn" class="hidden mt-6 w-full f1-font bg-[#39ff14] text-black py-4 rounded-xl font-bold tracking-widest uppercase shadow-[0_0_20px_rgba(57,255,20,0.3)] hover:bg-white hover:scale-[1.02] transition-all">
-                    Next Sector >>
-                </button>
             </div>
 
             <div id="feedback" class="h-8 mt-4 flex items-center justify-center text-sm font-bold tracking-wider uppercase"></div>
@@ -531,7 +444,7 @@
 
     <script>
    
-      const rawData = `  
+      const rawData = `
 follow: ～の後に続く、～に従う
 consider: ～を考慮する
 increase: 増える、～を増やす
@@ -2559,97 +2472,17 @@ abruptly: 不意に
 conversely: 逆に
 predominantly: 主に
 lest: ～しないように
-    `; 
-
-    const idiomData = [
-    { id: 1215, japanese: "手間をかけて〜する", prefix: "We (", suffix: ") prepare for the school event.", parts: ["took", "the", "trouble", "to"] },
-    { id: 1216, japanese: "〜を楽しむ", prefix: "We should not (", suffix: ") the misfortunes of others.", parts: ["take", "delight", "in"] },
-    { id: 1217, japanese: "Aに電話をかける", prefix: "I'll (", suffix: ") tomorrow morning.", parts: ["give", "you", "a", "call"] },
-    { id: 1218, japanese: "〜を引き起こす", prefix: "The population decline will (", suffix: ") several problems.", parts: ["give", "rise", "to"] },
-    { id: 1219, japanese: "〜を産む", prefix: "My sister (", suffix: ") a baby girl this spring.", parts: ["gave", "birth", "to"] },
-    { id: 1220, japanese: "〜に注意を払う", prefix: "I (", suffix: ") what the others were saying.", parts: ["paid", "attention", "to"] },
-    { id: "1221-1", japanese: "〜を訪れる", prefix: "We (", suffix: ") the Hiroshima Peace Memorial Museum.", parts: ["paid", "a", "visit", "to"] },
-    { id: "1221-2", japanese: "〜を訪れる", prefix: "I (", suffix: ") in Wakayama last weekend.", parts: ["paid", "my", "grandparents", "a", "visit"] },
-    { id: 1222, japanese: "面目を失う", prefix: "If I fail, I will (", suffix: ").", parts: ["lose", "face"] },
-    { id: 1223, japanese: "かっとなる", prefix: "I apologize for (", suffix: ").", parts: ["losing", "my", "temper"] },
-    { id: 1224, japanese: "〜から目を離さない", prefix: "Can you (", suffix: ") for me?", parts: ["keep", "an", "eye", "on", "my", "bag"] },
-    { id: 1225, japanese: "規則正しい生活を送る", prefix: "Everyone in my family (", suffix: ").", parts: ["keeps", "regular", "hours"] },
-    { id: 1226, japanese: "成人になる", prefix: "When I (", suffix: "), I will be able to vote.", parts: ["come", "of", "age"] },
-    { id: 1227, japanese: "〜を受け入れる", prefix: "It took me a long time to (", suffix: ") my sister's death.", parts: ["come", "to", "terms", "with"] },
-    { id: 1228, japanese: "明るみに出る", prefix: "The leak of personal information (", suffix: ").", parts: ["came", "to", "light"] },
-    { id: 1229, japanese: "誕生する", prefix: "I want to know how the universe (", suffix: ").", parts: ["came", "into", "being"] },
-    { id: 1230, japanese: "ダイエット中だ", prefix: "No, thank you. I'm (", suffix: ").", parts: ["on", "a", "diet"] },
-    { id: 1231, japanese: "ストライキをする", prefix: "The workers (", suffix: ") for the first time in 20 years.", parts: ["went", "on", "strike"] },
-    { id: 1232, japanese: "実を結ぶ", prefix: "My efforts finally (", suffix: ").", parts: ["bore", "fruit"] },
-    { id: 1233, japanese: "〜を利用できる", prefix: "Students (", suffix: ") online resources for their research projects.", parts: ["have", "access", "to"] },
-    { id: 1234, japanese: "〜のあら探しをする", prefix: "He (", suffix: ") everything I do.", parts: ["finds", "fault", "with"] },
-    { id: 1235, japanese: "食器を洗う", prefix: "I'll (", suffix: ") after dinner.", parts: ["do", "the", "dishes"] },
-    { id: 1236, japanese: "締め切りに間に合わせる", prefix: "I'm working hard to (", suffix: ").", parts: ["meet", "the", "deadline"] },
-    { id: 1237, japanese: "〜に打ち勝つ", prefix: "My curiosity (", suffix: "), and I opened the box.", parts: ["got", "the", "better", "of", "me"] },
-    { id: 1238, japanese: "〜する危険を冒す", prefix: "If I don't study, I (", suffix: ") my exams.", parts: ["run", "the", "risk", "of", "failing"] },
-    { id: 1239, japanese: "遠回しに言う", prefix: "Don't (", suffix: "). Get to the point.", parts: ["beat", "around", "the", "bush"] },
-    { id: 1240, japanese: "〜をいらいらさせる", prefix: "Construction noise (", suffix: ").", parts: ["gets", "on", "my", "nerves"] },
-    { id: 1241, japanese: "ぱっと立ち上がる", prefix: "Ken (", suffix: ") when the teacher called his name.", parts: ["jumped", "to", "his", "feet"] },
-    { id: 1242, japanese: "約束を守る", prefix: "I trust you to (", suffix: ").", parts: ["keep", "your", "word"] },
-    { id: 1243, japanese: "約束を破る", prefix: "He always (", suffix: "), so I don't trust him.", parts: ["breaks", "his", "word"] },
-    { id: 1244, japanese: "Aを暗記する", prefix: "I have to (", suffix: ") for the math test.", parts: ["learn", "all", "these", "formulas", "by", "heart"] },
-    { id: 1245, japanese: "〜を実行する", prefix: "I want to (", suffix: ").", parts: ["put", "my", "idea(s)", "into", "practice"] },
-    { id: 1246, japanese: "ちょうど今", prefix: "I'm busy (", suffix: "). Can we talk later?", parts: ["right", "now"] },
-    { id: 1247, japanese: "すぐに", prefix: "Can you come (", suffix: ")?", parts: ["right", "away"] },
-    { id: 1248, japanese: "すぐに", prefix: "I have to leave (", suffix: ") to catch the bus.", parts: ["at", "once"] },
-    { id: 1249, japanese: "その場で", prefix: "I decided to join the team (", suffix: ").", parts: ["on", "the", "spot"] },
-    { id: 1250, japanese: "すぐに", prefix: "I'll be with you (", suffix: ").", parts: ["in", "a", "minute"] },
-    { id: 1251, japanese: "まもなく", prefix: "That law will be passed (", suffix: ").", parts: ["before", "long"] },
-    { id: 1252, japanese: "現在は", prefix: "(", suffix: "), the increase in social security costs is a big problem.", parts: ["At", "present"] },
-    { id: 1253, japanese: "過去に", prefix: "(", suffix: "), we used more plastic bags than we do today.", parts: ["In", "the", "past"] },
-    { id: 1254, japanese: "将来は", prefix: "This trend of online shopping will continue (", suffix: ").", parts: ["in", "the", "future"] },
-    { id: 1255, japanese: "当分の間", prefix: "Let's put this topic aside (", suffix: ").", parts: ["for", "the", "time", "being"] },
-    { id: 1256, japanese: "しばらくの間", prefix: "I haven't seen her (", suffix: ").", parts: ["for", "a", "while"] },
-    { id: 1257, japanese: "しばらくして", prefix: "(", suffix: "), I felt much better.", parts: ["After", "a", "while"] },
-    { id: 1258, japanese: "長い間", prefix: "I haven't been to the beach (", suffix: ").", parts: ["for", "ages"] },
-    { id: 1259, japanese: "永久に", prefix: "My father said he quit smoking (", suffix: ").", parts: ["for", "good"] },
-    { id: 1260, japanese: "これを最後に", prefix: "We need to settle this matter (", suffix: ").", parts: ["once", "and", "for", "all"] },
-    { id: 1261, japanese: "ずっと", prefix: "I realized that my keys were in the bag (", suffix: ").", parts: ["all", "along"] },
-    { id: 1262, japanese: "今までのところ", prefix: "(", suffix: "), five students have come together for this project.", parts: ["So", "far"] },
-    { id: 1263, japanese: "これまでのところ", prefix: "(", suffix: "), there is no information about the missing tourist.", parts: ["As", "yet"] },
-    { id: "1264-1", japanese: "時々", prefix: "We still text each other (", suffix: ").", parts: ["from", "time", "to", "time"] },
-    { id: "1264-2", japanese: "たまに", prefix: "Everyone makes mistakes (", suffix: ").", parts: ["once", "in", "a", "while"] },
-    { id: 1265, japanese: "断続的に", prefix: "It's been raining (", suffix: ") all day today.", parts: ["on", "and", "off"] },
-    { id: "1266-1", japanese: "一般的に", prefix: "(", suffix: "), summers in Japan are hot and humid.", parts: ["In", "general"] },
-    { id: "1266-2", japanese: "全体として", prefix: "(", suffix: "), I did well in my exams.", parts: ["On", "the", "whole"] },
-    { id: "1267-1", japanese: "概して", prefix: "(", suffix: "), I take the bus to school, but sometimes I walk.", parts: ["As", "a", "rule"] },
-    { id: "1267-2", japanese: "概して", prefix: "(", suffix: "), it rains a lot in June in Japan.", parts: ["By", "and", "large"] },
-    { id: 1268, japanese: "偶然に", prefix: "I met my old friend (", suffix: ") at the mall.", parts: ["by", "chance"] },
-    { id: 1269, japanese: "ひょっとして", prefix: "Are you Ms. Harris, (", suffix: ")?", parts: ["by", "any", "chance"] },
-    { id: 1270, japanese: "誤って", prefix: "I've deleted an important file (", suffix: ").", parts: ["by", "mistake"] },
-    { id: 1271, japanese: "人の手で", prefix: "These wooden bowls are crafted (", suffix: ").", parts: ["by", "hand"] },
-    { id: 1272, japanese: "生まれつき", prefix: "Cats are independent (", suffix: ").", parts: ["by", "nature"] },
-    { id: 1273, japanese: "生まれは", prefix: "Mari is Japanese (", suffix: "), but has lived in France for a long time.", parts: ["by", "birth"] },
-    { id: 1274, japanese: "海路で／空路で", prefix: "It is more environmentally friendly to ship goods (", suffix: ").", parts: ["by", "sea", "than", "by", "air"] },
-    { id: 1275, japanese: "徐々に", prefix: "(", suffix: "), our friendship grew stronger.", parts: ["By", "degrees"] },
-    { id: 1276, japanese: "ぜひとも", prefix: "(", suffix: "), please let us know what you think about the matter.", parts: ["By", "all", "means"] },
-    { id: 1277, japanese: "ところで", prefix: "(", suffix: "), have you read that book yet?", parts: ["By", "the", "way"] },
-    { id: 1278, japanese: "ついに", prefix: "(", suffix: "), the war ended.", parts: ["At", "last"] },
-    { id: 1279, japanese: "長々と", prefix: "He talked (", suffix: ") about his hobbies.", parts: ["at", "length"] },
-    { id: 1280, japanese: "最初は", prefix: "(", suffix: "), I could not follow their English, but gradually I began to understand what they were saying.", parts: ["At", "first"] },
-    { id: 1281, japanese: "直接", prefix: "I hope to see the Eiffel Tower (", suffix: ").", parts: ["first", "hand"] },
-    { id: 1282, japanese: "思いのままに", prefix: "The cat comes and goes (", suffix: ").", parts: ["at", "will"] },
-    { id: 1283, japanese: "どんな犠牲を払っても", prefix: "We must avoid war (", suffix: ").", parts: ["at", "all", "costs"] }
-    ];
+      `; // ★ここに自分の単語データを入れてくれ
 
     document.addEventListener('dblclick', function(event) { event.preventDefault(); }, { passive: false });
     document.addEventListener('touchmove', function(event) { if (event.scale !== 1) { event.preventDefault(); } }, { passive: false });
 
     class HybridQuiz {
         constructor() {
-            this.mode = 'vocab'; 
             this.wordsPerRound = 20; 
             this.masterList = [];
             this.vocabRounds = [];
             this.currentRoundIndex = 0;
-            this.currentIdiomParts = [];
-            this.shuffledIdiomParts = [];
-            this.userAns = [];
             this.isLocked = false;
             this.questions = [];
             this.currentIndex = 0;
@@ -2666,17 +2499,21 @@ lest: ～しないように
 
             this.isPitStopMode = false;
             this.isReverseMode = false;
-            this.isInstantMode = false; 
             this.isSpellingMode = false; 
             this.spellingAns = []; 
             this.spellingPoolState = []; 
-
-            const instantCheck = document.getElementById('instant-mode');
-            if(instantCheck) {
-                instantCheck.addEventListener('change', (e) => {
-                    this.isInstantMode = e.target.checked;
+            
+            // BLIND RADIO
+            this.isRadioMode = false;
+            const radioCheck = document.getElementById('radio-mode');
+            if(radioCheck) {
+                radioCheck.addEventListener('change', (e) => {
+                    this.isRadioMode = e.target.checked;
+                    // ラジオモードONなら自動音声も強制ON
+                    if(this.isRadioMode) this.isAutoAudio = true; 
                 });
             }
+
             this.isAutoAudio = localStorage.getItem('vocab_auto_audio') !== 'false';
             this.synth = window.speechSynthesis;
             this.englishVoices = [];
@@ -2701,8 +2538,6 @@ lest: ～しないように
             this.initSearch(); 
         }
 
-        /* ... (以下のメソッドは前回のコードと全く同じです。そのままコピーしてください) ... */
-        
         loadVoices() {
             if(!this.synth) return;
             let attempts = 0;
@@ -2778,7 +2613,6 @@ lest: ～しないように
                     selector.appendChild(opt);
                 });
             }
-            document.getElementById('idiom-count-display').innerText = idiomData.length;
 
             const lastPlayed = localStorage.getItem('rb26_last_round');
             if (lastPlayed) {
@@ -2801,13 +2635,14 @@ lest: ～しないように
             
             const tire = this.wordsPerRound;
             const rev = document.getElementById('reverse-mode').checked ? "REV" : "STD";
+            // BLIND RADIO
+            const radio = document.getElementById('radio-mode').checked ? "+RADIO" : "";
             const spell = document.getElementById('spelling-mode').checked && document.getElementById('reverse-mode').checked ? "+MANUAL" : "";
             
-            document.getElementById('strategy-summary').innerText = `${roundName} | ${tire} Qs | ${rev}${spell}`;
+            document.getElementById('strategy-summary').innerText = `${roundName} | ${tire} Qs | ${rev}${radio}${spell}`;
         }
 
         toggleStrategyMenu() {
-            // Mobile Only Toggle
             const panel = document.getElementById('strategy-panel');
             const btn = document.getElementById('strategy-toggle-btn');
             if (panel.classList.contains('open')) {
@@ -2897,18 +2732,13 @@ lest: ～しないように
             if (s < 0 || e > this.masterList.length || s >= e) { alert("Invalid Range for Random GP"); return; }
 
             const rangePool = this.masterList.slice(s, e);
-            
             this.shuffle(rangePool);
-            
             const selectedWords = rangePool.slice(0, qty);
             
             this.vocabRounds.unshift({ id: 'random', name: `🎲 RANDOM (Range: ${s+1}-${e})`, words: selectedWords });
             this.initUI();
             document.getElementById('round-selector').value = 0;
-            
             this.updateSummary();
-            // PC版ではパネル閉じないので何もしない、モバイルでは閉じるかも？
-            // this.toggleStrategyMenu();
             this.start();
         }
         
@@ -2932,31 +2762,6 @@ lest: ～しないように
             }
         }
 
-        switchMode(newMode) {
-            this.mode = newMode;
-            document.querySelectorAll('.mode-btn').forEach(b => b.classList.remove('active'));
-            
-            const activeBtn = document.getElementById(`mode-${newMode}`);
-            if (activeBtn) activeBtn.classList.add('active');
-            
-            const vocabSettings = document.getElementById('vocab-settings');
-            const vocabTools = document.getElementById('vocab-tools');
-            const idiomSettings = document.getElementById('idiom-settings');
-            const vocabStatus = document.getElementById('vocab-status-area');
-
-            if (newMode === 'vocab') {
-                if (vocabSettings) vocabSettings.classList.remove('hidden');
-                if (vocabTools) vocabTools.classList.remove('hidden');
-                if (idiomSettings) idiomSettings.classList.add('hidden');
-                if (vocabStatus) vocabStatus.classList.remove('hidden');
-            } else {
-                if (vocabSettings) vocabSettings.classList.add('hidden');
-                if (vocabTools) vocabTools.classList.add('hidden');
-                if (idiomSettings) idiomSettings.classList.remove('hidden');
-                if (vocabStatus) vocabStatus.classList.add('hidden');
-            }
-        }
-
         start() {
             this.currentIndex = 0;
             this.missCount = 0;
@@ -2970,51 +2775,43 @@ lest: ～しないように
             document.getElementById('result-screen').classList.add('hidden');
             document.getElementById('quiz-screen').classList.remove('hidden');
             
-            document.getElementById('vocab-interface').classList.add('hidden');
-            document.getElementById('idiom-interface').classList.add('hidden');
-
-            if (this.mode === 'vocab') {
-                this.startVocabMode();
-            } else {
-                this.startIdiomMode();
-            }
+            // 常にVocabモード
+            this.startVocabMode();
         }
 
         startVocabMode() {
             if(this.vocabRounds.length === 0) { alert("Data not loaded"); this.returnToGrid(); return; }
             this.isPitStopMode = false;
-            document.getElementById('vocab-interface').classList.remove('hidden');
             
             const selector = document.getElementById('round-selector');
             this.currentRoundIndex = parseInt(selector.value);
             const selectedRound = this.vocabRounds[this.currentRoundIndex];
             
-            // Save Last Played Round (Telemetry Recall)
             if (selectedRound.id !== 'custom' && selectedRound.id !== 'random') {
                 localStorage.setItem('rb26_last_round', this.currentRoundIndex);
             }
 
             this.isReverseMode = document.getElementById('reverse-mode').checked;
             this.isSpellingMode = document.getElementById('spelling-mode').checked && this.isReverseMode;
-            
+            // BLIND RADIO
+            this.isRadioMode = document.getElementById('radio-mode').checked;
+
             let modeTitle = "";
-            if (this.isSpellingMode) modeTitle = " [MANUAL SHIFT]";
+            if (this.isRadioMode) modeTitle = " [BLIND RADIO]";
+            else if (this.isSpellingMode) modeTitle = " [MANUAL SHIFT]";
             else if (this.isReverseMode) modeTitle = " [REV]";
 
             document.getElementById('circuit-name').innerText = selectedRound.name + modeTitle;
             document.getElementById('question-label').innerText = this.isReverseMode ? "TRANSLATE" : "MEANING";
 
-            // ★ UPDATE: Load Telemetry Data (SRS Stats) for Normal GP
             this.questions = selectedRound.words.map(target => {
                 const qText = this.isReverseMode ? target.m : target.w;
                 const aText = this.isReverseMode ? target.w : target.m;
                 
                 const options = this.isSpellingMode 
-                    ? [] // No options needed for spelling
+                    ? [] 
                     : [aText, ...this.getDistractors(target, this.isReverseMode)].sort(() => Math.random() - 0.5);
                 
-                // ここで既存の成績データ(allMistakes)と照合する
-                // マッチしなければデフォルト値 (0, 0, 2.5) を使用
                 const existingData = (this.allMistakes || []).find(item => item.word === target.w || item.w === target.w) || {};
 
                 return { 
@@ -3023,7 +2820,6 @@ lest: ～しないように
                     qText: qText, 
                     aText: aText, 
                     o: options,
-                    // データを継承させる重要な修正
                     docId: existingData.id || null, 
                     interval: existingData.interval || 0,
                     repetitions: existingData.repetitions || 0,
@@ -3033,26 +2829,6 @@ lest: ～しないように
             this.questions.sort(() => Math.random() - 0.5);
             this.showVocabQuestion();
         }
-
-        // ★ここで startVocabMode を閉じてから、startIdiomMode を定義する
-        startIdiomMode() {
-            if(idiomData.length === 0) { alert("No idiom data found."); this.returnToGrid(); return; }
-            
-            // ピットストップモードなどを解除
-            this.isPitStopMode = false;
-            
-            document.getElementById('idiom-interface').classList.remove('hidden');
-            document.getElementById('circuit-name').innerText = "IDIOM SORTING";
-            
-            // データをシャッフルしてセット
-            this.questions = [...idiomData].sort(() => Math.random() - 0.5);
-            this.showIdiomQuestion();
-        }
-
-           
-        /* ... (以降、getDistractors, showVocabQuestion, finish など全てのメソッドを前回と同じように実装する) ... */
-        // ※コード長制限のため、ロジック部分は前回のものを流用してください。
-        // 特に renderStandardOptions のボタンデザインなどもCSSで制御しているため、JS側のクラス名はそのままでOKです。
         
         getDistractors(targetWord, isReverse) {
              const distractors = [];
@@ -3092,10 +2868,20 @@ lest: ～しないように
              document.getElementById('question-number').innerText = `LAP ${this.currentIndex + 1} / ${this.questions.length}`;
              
              const targetDisplay = document.getElementById('target-word');
-             targetDisplay.innerText = q.qText;
-             targetDisplay.className = (this.isReverseMode && q.qText.length > 8) 
-                 ? "f1-font text-4xl font-bold text-white tracking-wide break-words px-2"
-                 : "f1-font text-6xl font-bold text-white tracking-wide drop-shadow-lg break-words px-2";
+
+             // BLIND RADIO
+             if (this.isRadioMode) {
+                 targetDisplay.innerText = "🔊 INCOMING...";
+                 targetDisplay.className = "f1-font text-4xl md:text-5xl font-bold text-purple-500 tracking-widest animate-pulse py-4";
+                 setTimeout(() => this.speak(q.w), 200);
+             } else {
+                 targetDisplay.innerText = q.qText;
+                 targetDisplay.className = (this.isReverseMode && q.qText.length > 8) 
+                     ? "f1-font text-4xl font-bold text-white tracking-wide break-words px-2"
+                     : "f1-font text-6xl font-bold text-white tracking-wide drop-shadow-lg break-words px-2";
+                 
+                 if (this.isAutoAudio && !this.isReverseMode && !this.isSpellingMode) setTimeout(() => this.speak(q.w), 200);
+             }
 
              this.lapStartTime = Date.now(); 
 
@@ -3104,7 +2890,6 @@ lest: ～しないように
              
              const speakBtn = document.getElementById('speak-btn');
              speakBtn.onclick = () => this.speak(q.w);
-             if (this.isAutoAudio && !this.isReverseMode && !this.isSpellingMode) setTimeout(() => this.speak(q.w), 200);
 
              const stdContainer = document.getElementById('options-container');
              const spellContainer = document.getElementById('spelling-interface');
@@ -3241,19 +3026,21 @@ lest: ～しないように
          renderStandardOptions(q, container) {
              container.innerHTML = '';
              
+             // 選択肢生成関数
              const renderBtns = () => {
                  container.innerHTML = '';
                  q.o.forEach(opt => {
                      const btn = document.createElement('button');
                      const fontClass = this.isReverseMode ? "f1-font tracking-wider text-xl" : "text-lg";
-                    btn.className = `option-btn w-full h-full flex items-center text-left p-5 rounded-xl bg-white/10 border border-white/20 hover:bg-white/20 active:border-red-500 font-bold shadow-lg ${fontClass} transition-all`;
+                     btn.className = `option-btn w-full h-full flex items-center text-left p-5 rounded-xl bg-white/10 border border-white/20 hover:bg-white/20 active:border-red-500 font-bold shadow-lg ${fontClass} transition-all`;
                      btn.innerText = opt;
                      btn.onclick = () => this.handleVocabAnswer(opt, q);
                      container.appendChild(btn);
                  });
              };
 
-             if (this.isInstantMode) {
+             // BLIND RADIOなら即表示、それ以外は隠す
+             if (this.isRadioMode) {
                  renderBtns();
              } else {
                  const revealBtn = document.createElement('button');
@@ -3270,6 +3057,14 @@ lest: ～しないように
              const btns = document.querySelectorAll('.option-btn');
              if (btns.length > 0 && btns[0].disabled) return;
              btns.forEach(b => b.disabled = true);
+
+             // ラジオモードなら、回答後に正解を表示
+             if (this.isRadioMode) {
+                 const targetDisplay = document.getElementById('target-word');
+                 targetDisplay.innerText = q.w; 
+                 targetDisplay.className = "f1-font text-6xl font-bold text-white tracking-wide drop-shadow-xl break-words px-2";
+                 targetDisplay.classList.remove('animate-pulse', 'text-purple-500');
+             }
 
              const feedback = document.getElementById('feedback');
              const timeTaken = (Date.now() - this.lapStartTime) / 1000;
@@ -3312,133 +3107,6 @@ lest: ～しないように
                      this.currentIndex++; 
                      this.showVocabQuestion(); 
                  }, 1500);
-             }
-         }
-
-         showIdiomQuestion() {
-             const data = this.questions[this.currentIndex];
-             document.getElementById('question-number').innerText = `LAP ${this.currentIndex + 1} / ${this.questions.length}`;
-             document.getElementById('progress-fill').style.width = `${(this.currentIndex / this.questions.length) * 100}%`;
-             document.getElementById('feedback').innerHTML = "";
-             document.getElementById('idiom-next-btn').classList.add('hidden');
-             
-             document.getElementById('idiom-japanese').innerText = data.japanese;
-             document.getElementById('idiom-prefix').innerText = data.prefix;
-             document.getElementById('idiom-suffix').innerText = data.suffix;
-             
-             document.getElementById('answer-slot').classList.remove('correct-lane', 'wrong-lane');
-             document.getElementById('answer-slot').innerHTML = '';
-
-             this.userAns = [];
-             this.currentIdiomParts = [...data.parts];
-             this.shuffledIdiomParts = [...data.parts];
-             this.shuffle(this.shuffledIdiomParts);
-             
-             this.isLocked = false;
-             this.renderIdiomPool();
-         }
-
-         renderIdiomPool() {
-             const poolEl = document.getElementById('word-pool');
-             poolEl.innerHTML = '';
-             const remaining = this.getRemainingParts(this.shuffledIdiomParts, this.userAns);
-             
-             remaining.forEach((word) => {
-                 const btn = document.createElement('button');
-                 btn.className = 'chip-btn chip-pool f1-font px-4 py-3 rounded-lg text-lg border border-gray-700 shadow-md active:bg-gray-700 hover:bg-gray-700 transition-colors';
-                 btn.innerText = word;
-                 if(this.isLocked) btn.classList.add('locked');
-                 btn.onclick = () => { if(!this.isLocked) this.moveWordToSlot(word); };
-                 poolEl.appendChild(btn);
-             });
-         }
-
-         renderIdiomSlot() {
-             const slotEl = document.getElementById('answer-slot');
-             slotEl.innerHTML = '';
-             this.userAns.forEach((word, idx) => {
-                 const btn = document.createElement('button');
-                 btn.className = 'chip-btn chip-slot f1-font px-3 py-2 rounded-md text-lg';
-                 btn.innerText = word;
-                 if(this.isLocked) btn.classList.add('locked');
-                 btn.onclick = () => { if(!this.isLocked) this.moveWordToPool(idx); };
-                 slotEl.appendChild(btn);
-             });
-             this.checkIdiomWin();
-         }
-
-         moveWordToSlot(word) {
-             this.userAns.push(word);
-             this.renderIdiomPool();
-             this.renderIdiomSlot();
-         }
-
-         moveWordToPool(idx) {
-             this.userAns.splice(idx, 1);
-             this.renderIdiomPool();
-             this.renderIdiomSlot();
-         }
-
-         getRemainingParts(allParts, usedParts) {
-             const pool = [...allParts];
-             const used = [...usedParts];
-             used.forEach(u => {
-                 const i = pool.indexOf(u);
-                 if (i > -1) pool.splice(i, 1);
-             });
-             return pool;
-         }
-
-         checkIdiomWin() {
-             const correctOrder = this.questions[this.currentIndex].parts;
-             const slotEl = document.getElementById('answer-slot');
-             if (this.userAns.length !== correctOrder.length) return;
-             const isCorrect = this.userAns.every((val, index) => val === correctOrder[index]);
-
-             if (isCorrect) {
-                 this.currentStreak++;
-                 if (this.currentStreak > this.maxStreak) this.maxStreak = this.currentStreak;
-
-                 slotEl.classList.add('correct-lane');
-                 document.getElementById('feedback').innerHTML = "<span class='text-[#39ff14] text-lg'>✅ PURPLE SECTOR</span>";
-                 slotEl.querySelectorAll('.chip-btn').forEach(c => c.classList.add('chip-correct'));
-                 
-                 const nextBtn = document.getElementById('idiom-next-btn');
-                 nextBtn.classList.remove('hidden');
-                 nextBtn.onclick = () => {
-                     this.currentIndex++;
-                     if (this.currentIndex < this.questions.length) this.showIdiomQuestion();
-                     else this.finish();
-                 };
-                 
-                 if (window.handleSRSUpdate) {
-                     const q = this.questions[this.currentIndex];
-                     window.handleSRSUpdate({ w: q.japanese, m: q.parts.join(' '), docId: 'idiom_' + q.id }, true);
-                 }
-
-             } else {
-                 this.missCount++;
-                 this.currentStreak = 0; 
-
-                 const q = this.questions[this.currentIndex];
-                 if (!this.missedWordsLog.find(item => item.w === "Idiom Order")) {
-                     this.missedWordsLog.push({ w: "Idiom Order Error", m: q.japanese });
-                 }
-                 if (window.handleSRSUpdate) {
-                     window.handleSRSUpdate({ w: q.japanese, m: q.parts.join(' '), docId: 'idiom_' + q.id }, false);
-                 }
-
-                 this.isLocked = true;
-                 document.getElementById('feedback').innerHTML = "<span class='text-[#e10600]'>⚠️ CRASHED! RESETTING...</span>";
-                 slotEl.classList.add('wrong-lane', 'animate-shake');
-                 setTimeout(() => {
-                     slotEl.classList.remove('animate-shake', 'wrong-lane');
-                     document.getElementById('feedback').innerHTML = "";
-                     this.userAns = [];
-                     this.isLocked = false;
-                     this.renderIdiomPool();
-                     this.renderIdiomSlot();
-                 }, 800);
              }
          }
 
@@ -3490,8 +3158,6 @@ lest: ～しないように
                  let roundName = "UNKNOWN ROUND";
                  if (this.isPitStopMode) {
                      roundName = "SRS PIT STOP";
-                 } else if (this.mode === 'idiom') {
-                     roundName = "IDIOM CHALLENGE";
                  } else if (this.vocabRounds[this.currentRoundIndex]) {
                      roundName = this.vocabRounds[this.currentRoundIndex].name;
                  }
@@ -3535,20 +3201,16 @@ lest: ～しないように
             const nextBtn = document.getElementById('next-round-btn');
             const currentRound = this.vocabRounds[this.currentRoundIndex];
 
-            // ★ここを修正：ランダムモードなら「同じ条件で再戦」、通常モードなら「次のラウンド」
-            if (this.mode === 'vocab' && !this.isPitStopMode) {
+            if (!this.isPitStopMode) {
                 if (currentRound && currentRound.id === 'random') {
-                    // ランダムモードの場合
                     nextBtn.classList.remove('hidden');
-                    nextBtn.innerText = "AGAIN (SAME SETUP)"; // ボタンの文字を変えてやる
+                    nextBtn.innerText = "AGAIN (SAME SETUP)"; 
                     nextBtn.onclick = () => { 
-                        // createRandomRoundを実行すれば、入力欄の値を使って新しい問題を作ってスタートしてくれる
                         this.createRandomRound(); 
                     };
                 } else if (this.currentRoundIndex + 1 < this.vocabRounds.length) {
-                    // 通常モードの場合
                     nextBtn.classList.remove('hidden');
-                    nextBtn.innerText = "NEXT SECTOR"; // 通常の文字に戻す
+                    nextBtn.innerText = "NEXT SECTOR";
                     nextBtn.onclick = () => { 
                         document.getElementById('round-selector').value = this.currentRoundIndex + 1; 
                         this.start(); 
@@ -3584,13 +3246,11 @@ lest: ～しないように
         
          startPitStop() {
              if (!this.dueMistakes || this.dueMistakes.length === 0) return;
-             
+             // 熟語は除外
              const vocabDue = this.dueMistakes.filter(item => !item.id.toString().startsWith('idiom_'));
-             
              if (!vocabDue || vocabDue.length === 0) return;
 
              this.isPitStopMode = true; 
-             this.switchMode('vocab'); 
              
              this.questions = vocabDue.map(item => {
                  const word = item.word || item.w;
@@ -3609,9 +3269,6 @@ lest: ～しないように
              document.getElementById('start-screen').classList.add('hidden');
              document.getElementById('quiz-screen').classList.remove('hidden');
              
-             document.getElementById('vocab-interface').classList.remove('hidden');
-             document.getElementById('idiom-interface').classList.add('hidden');
-
              this.startTime = Date.now();
              this.startTimer();
              this.showVocabQuestion();
@@ -3783,7 +3440,6 @@ lest: ～しないように
           })
       });
 
-      /* ... (これ以降のFirebase関連のロジックは前回のコードと全く同じなので、そのまま使ってください) ... */
       const gateScreen = document.getElementById('gate-screen');
       const startScreen = document.getElementById('start-screen');
       const loginStatus = document.getElementById('login-status');
@@ -3857,8 +3513,7 @@ lest: ～しないように
         catch (error) { console.error(error); loginStatus.innerText = "Access Denied."; }
       });
 
-      // (fetchSRSItems, handleSRSUpdate, saveRaceResult, toggleBookmark, incrementDailyLaps 等の関数定義も前回と同じ)
-      window.fetchSRSItems = async () => { /* 前回と同じコード */ 
+      window.fetchSRSItems = async () => {
         if (!window.currentUser) return;
         const CACHE_KEY = `srs_data_${window.currentUser.uid}`;
         const TIME_KEY = `srs_time_${window.currentUser.uid}`;
@@ -3918,7 +3573,7 @@ lest: ～しないように
         }
       };
 
-      window.handleSRSUpdate = async (questionObj, isCorrect) => { /* 前回と同じコード */
+      window.handleSRSUpdate = async (questionObj, isCorrect) => {
         if (!window.currentUser) return;
         
         const mistakesRef = collection(db, "users", window.currentUser.uid, "mistakes");
@@ -4021,7 +3676,7 @@ lest: ～しないように
         }
       };
 
-      window.saveRaceResult = async (data) => { /* 前回と同じコード */
+      window.saveRaceResult = async (data) => {
           if (!window.currentUser) return;
           try {
               const now = new Date();
@@ -4045,7 +3700,7 @@ lest: ～しないように
           } catch (e) { console.error(e); }
       };
 
-      window.toggleBookmark = async (safeWord, safeMeaning) => { /* 前回と同じコード */
+      window.toggleBookmark = async (safeWord, safeMeaning) => {
           if (!window.currentUser) { alert("Sign in required."); return; }
           const word = decodeURIComponent(safeWord);
           const meaning = decodeURIComponent(safeMeaning);
@@ -4092,7 +3747,7 @@ lest: ～しないように
           }
       };
 
-      window.incrementDailyLaps = async () => { /* 前回と同じコード */
+      window.incrementDailyLaps = async () => {
           if (!window.currentUser) return; 
           const statsRef = doc(db, "stats", "daily_global");
           const todayStr = new Date().toLocaleString('ja-JP', { timeZone: 'Asia/Tokyo' }).split(' ')[0];
